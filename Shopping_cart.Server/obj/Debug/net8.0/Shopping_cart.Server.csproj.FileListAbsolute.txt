@@ -77,3 +77,4 @@ C:\Users\Guruprakash S\Desktop\Shopping_cart\Shopping_cart.Server\obj\Debug\net8
 C:\Users\Guruprakash S\Desktop\Shopping_cart\Shopping_cart.Server\obj\Debug\net8.0\Shopping_cart.Server.genruntimeconfig.cache
 C:\Users\Guruprakash S\Desktop\Shopping_cart\Shopping_cart.Server\obj\Debug\net8.0\ref\Shopping_cart.Server.dll
 C:\Users\Guruprakash S\Desktop\Shopping_cart\Shopping_cart.Server\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\Guruprakash S\Desktop\Shopping_cart\Shopping_cart.Server\obj\Debug\net8.0\Shopping_cart.Server.sourcelink.json

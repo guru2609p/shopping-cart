@@ -201,6 +201,7 @@ function App() {
         <>
             <header id='header'>
                 <div id='title' onClick={handleHome} style={{ cursor: 'pointer' }}>
+                    <img src='shopping cart logo.png' alt='shopping cart' width='50px'/>
                     <h1>Guruzon</h1>
                 </div>
 
@@ -224,7 +225,7 @@ function App() {
                             Sign in<i className='fas fa-user-alt' style={{ fontSize: "24px", marginLeft: "8px" }} ></i>
                         </h2>
                     )}
-
+                    <h2>|</h2>
                     <h2 onClick={handleShowCart} style={{ cursor: 'pointer' }}>Cart({cartItems.length})</h2>
                 </div>
             </header>

@@ -22,11 +22,20 @@ header {
 }
 
 #title{
+    display:flex;
+    flex-direction:row;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
     padding-left:20px;
 }
 
 #title:hover{
     cursor:pointer;
+}
+
+#title>img{
+    background:none;
 }
 
 #cart{
@@ -119,14 +128,17 @@ header {
     grid-template-columns: repeat(2,.3fr);
     align-items: center;
     padding:10px;
+    
 }
 
-#password-inputs{
-    display:flex;
-    align-items:center;
-    justify-content:space-evenly;
-    padding:10px;
+#password-inputs {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    padding: 20px;
 }
+
+
 
 #name-inputs {
     display: flex;
@@ -369,8 +381,8 @@ header {
 #cart-item-price {
     font-size: 20px;
     white-space: nowrap; /* Ensures currency doesn't split onto two lines */
+    padding:15px;
 }
-
 
 
 
