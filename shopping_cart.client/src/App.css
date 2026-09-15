@@ -1,0 +1,565 @@
+﻿html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    font-family: 'Century Gothic';
+}
+
+
+header {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    background-color: #304147;
+    color: white;
+    
+    font-weight: bold;
+    align-items: center;
+    /*border-radius:10px;*/
+    /*padding-left: 5px;
+    padding-right: 5px;*/
+    margin-bottom: 20px;
+}
+
+#title{
+    padding-left:20px;
+}
+
+#title:hover{
+    cursor:pointer;
+}
+
+#cart{
+    display:flex;
+    flex-direction:row;
+    align-items:center;
+    gap:20px;
+    padding:10px;
+}
+
+#cart>h2:hover{
+    cursor:pointer;
+}
+
+#login-page{
+    display:flex;
+    justify-content:center;
+    
+}
+
+#login {
+    border-radius: 10px;
+    box-shadow: 0 10px 10px 0 #889382;
+    border: 1px solid black;
+    width: 600px;
+    height: auto;
+    padding: 20px;
+}
+
+#login-inputs{
+    display:grid;
+    grid-template-columns:repeat(2,.3fr);
+    align-items:center;
+}
+
+
+#login-inputs>input{
+    margin:10px;
+    width:200px;
+    border:1px solid black;
+    border-radius:8px;
+    padding:10px;
+}
+
+#login-buttons{
+    display:flex;
+    justify-content:flex-end;
+    gap:10px;
+}
+
+#login-buttons > button {
+    border: none;
+    background-color: #304147;
+    color:white;
+    padding:10px;
+}
+
+#register-page {
+    display: flex;
+    justify-content: center;
+}
+
+#register {
+    border-radius: 10px;
+    box-shadow: 0 10px 10px 0 #889382;
+    border: 1px solid black;
+    width: 600px;
+    height: auto;
+    padding: 20px;
+}
+
+/*#register-inputs {
+    display: grid;
+    grid-template-columns: repeat(2,.3fr);
+    align-items: center;
+}
+*/
+
+#register-inputs input {
+    margin: 10px;
+    width: 200px;
+    border: 1px solid black;
+    border-radius: 8px;
+    padding: 10px;
+}
+
+
+#email-input {
+    display: grid;
+    grid-template-columns: repeat(2,.3fr);
+    align-items: center;
+    padding:10px;
+}
+
+#password-inputs{
+    display:flex;
+    align-items:center;
+    justify-content:space-evenly;
+    padding:10px;
+}
+
+#name-inputs {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    padding:10px;
+}
+
+
+#checkbox-inputs{
+    display:flex;
+    justify-content:flex-start;
+    align-items:center;
+    gap:10px;
+}
+
+#checkbox-inputs input[type="checkbox"] {
+    width: 15px; /* Standard checkbox width */
+    height: 15px; /* Standard checkbox height */
+    padding: 0; /* Resets the 10px padding breaking it */
+    margin: 10px; /* Resets structural layout margin */
+    cursor: pointer;
+}
+
+#register-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+#register-buttons > button {
+    border: none;
+    background-color: #304147;
+    color: white;
+    padding: 10px;
+}
+
+#categories {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    justify-content: center;
+    padding:10px;
+}
+
+    #categories > div {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        /*border: 4px solid black;*/
+        align-items:center;
+        justify-content:center;
+        border: none;
+        border-radius: 9px;
+        color: white;
+        /*width: 300px;*/
+        height: 200px;
+        /*padding: 10px 20px 10px;
+        padding-bottom: 10px;*/
+        margin: 10px;
+        overflow: hidden;
+    }
+
+#categories > div > img {
+    width: /*250px*/ 100%;
+    height: /*150px*/100%;
+    border-radius: 6px;
+    object-fit: cover;
+}
+
+/* The dark background overlay wrapper */
+#categories > div > .overlay {
+    position: absolute;
+    /*top: 0;
+    left: 0;*/
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7); /* Dark semi-transparent background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0; /* Hidden by default */
+    transition: opacity 0.3s ease; /* Smooth fade-in animation */
+    pointer-events: none; /* Allows click events to pass straight through if needed */
+
+}
+
+/* Style the category text inside the overlay */
+#categories > div > .overlay > h1 {
+    color: white;
+    font-size: 20px;
+    margin: 0;
+    text-transform: capitalize; /* Automatically capitalizes titles gracefully */
+}
+
+/* Hover Trigger: Reveal the overlay dark background and text */
+#categories > div:hover > .overlay {
+    opacity: 1;
+}
+
+#products {
+    list-style-type: none;
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    padding: 10px;
+    align-items:center;
+    justify-items:center;
+}
+
+
+#item {
+    display: flex;
+    flex-direction: column;
+    /*border: 4px solid black;*/
+    border: 1px solid black;
+    box-shadow: 0 10px 10px 0 #889382;
+    border-radius: 9px;
+    width: 400px;
+    /*height: 250px;*/
+    /*padding: 10px 20px 10px;*/
+    padding-bottom: 10px;
+    margin: 10px;
+}
+
+#item > img {
+    width: /*250px*/ 100%;
+    height: 150px;
+    border-radius: 6px;
+    object-fit: cover;
+}
+
+#sub1 {
+    padding-right: 15px;
+    padding-left: 15px;
+    padding-bottom: 10px;
+}
+
+#sub2 {
+    /*font-family: 'Copperplate Gothic';*/
+    display: flex;
+    justify-content: space-between;
+    padding-right: 15px;
+    padding-left: 15px;
+    /*padding-bottom: 30px;*/
+    /*margin-bottom: 10px;*/
+}
+
+    #sub2 > button {
+        border: 1px solid black;
+        background-color: white;
+        color: black;
+        border-radius: 4px;
+        padding: 10px 40px 10px;
+        font-family: 'Century Gothic';
+        font-size: 20px;
+    }
+
+#sub2 > button:hover {
+    background-color: black;
+    color:white;
+    cursor:pointer;
+}
+
+#product_dialog {
+    border-radius: 6px;
+    border: none;
+    background-color: white;
+    color: black;
+    padding: 10px 20px 10px;
+    width: 400px;
+}
+
+    #product_dialog::backdrop {
+        background-color: rgba(0, 0, 0, 0.55);
+    }
+
+
+    #product_dialog > div {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+        #product_dialog > div > img {
+            width: 300px;
+            height: 400px;
+        }
+
+
+
+#home{
+    display:flex;
+    justify-content:flex-end;
+    align-items:center;
+    cursor:pointer;
+}
+
+
+#dialog {
+    border-radius: 6px;
+    border: none;
+    background-color: #304147;
+    color: white;
+    padding: 10px 20px 10px;
+    width: 500px;
+}
+
+    #dialog::backdrop {
+        background-color: rgba(0, 0, 0, 0.55);
+    }
+
+
+#items > h2 {
+    text-align: center;
+}
+
+
+#cart-item {
+    display: flex;
+    justify-content: space-between; /* Pushes text to the left, buttons to the right */
+    align-items: center;
+    width: 100%; /* Ensures the row spans across the entire red modal */
+    padding: 10px 0;
+}
+
+#cart-item_name_price {
+    display: flex;
+    align-items: center;
+    flex: 1; /* <-- Uncomment or add this line */
+    text-align: left;
+    
+}
+
+
+#cart-item-name {
+    font-weight: bold;
+    font-size: 20px;
+    margin-right: 10px;
+}
+
+#cart-item-price {
+    font-size: 20px;
+    white-space: nowrap; /* Ensures currency doesn't split onto two lines */
+}
+
+
+
+
+#cart-item_button {
+    display: flex;
+    align-items: center;
+    justify-items: center;
+    
+}
+
+    #cart-item_button > button {
+        background: none;
+        border: none;
+        color: #f9f1ff;
+         /* <-- Change this from margin-right to margin-left */
+        font-size: 20px;
+    }
+
+    #cart-item_button > * {
+        margin: 10px;
+        font-size: 20px;
+    }
+
+#cart-button {
+    display: flex;
+    justify-content: flex-end;
+}
+
+    #cart-button > button {
+        background: none;
+        border: none;
+        color: #f9f1ff;
+        font-family: 'Century Gothic';
+        font-size: 20px;
+    }
+
+#empty-cart{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-direction:column;
+    gap:10px;
+}
+
+    #empty-cart > button {
+        background-color: #beb700;
+        color:black;
+        border:none;
+        padding:10px;
+        border-radius:8px;
+        font-family:'Century Gothic';
+    }
+/* 5. Total Price Row Layout */
+/*
+#cart-total-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid rgba(255, 255, 255, 0.2); 
+    font-size: 20px;
+    font-weight: bold;
+}
+*/
+
+
+
+/* 4. Bottom Close Button Layout */
+/*
+#cart-button {
+    /*width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+}
+
+    #cart-button > button {
+        background: none;
+        border: none;
+        color: #f9f1ff;
+        font-family: 'Century Gothic';
+        font-size: 20px;
+        cursor: pointer;
+    }
+*/
+
+#dialog1 {
+    border-radius: 6px;
+    border: none;
+    background-color: #304147;
+    color: white;
+    padding: 10px 20px 10px;
+    width: 500px;
+}
+
+    #dialog1::backdrop {
+        background-color: rgba(0, 0, 0, 0.55);
+    }
+
+#success-button{
+    display:flex;
+    justify-content:flex-end;
+}
+
+
+#success-button>button{
+    background:none;
+    border:none;
+    font-size:20px;
+    font-family:'Century Gothic';
+    color:white;
+}
+
+/*for user command sign out*/
+
+/* ==========================================================================
+   USER PROFILE DROPDOWN ALIGNMENT RULES
+   ========================================================================== */
+
+/* Fix: Targets h2 elements inside cart wrapper to drop browser default margin displacements */
+#cart h2 {
+    margin: 0;
+    display: flex;
+    align-items: center;
+}
+
+/* Parent anchor frame aligning with standard text flows */
+.user-dropdown {
+    position: relative;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+/* Structural bridge layout keeping dropdown element flush inside header container */
+.dropdown-trigger {
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+/* Dropdown popover panel hidden directly underneath item text */
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: #ffffff;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    border-radius: 6px;
+    z-index: 100;
+    min-width: 130px;
+    padding: 6px;
+    margin-top: 10px; /* Air space below alignment text baseline */
+}
+
+    /* Safe layout buffer panel preventing early menu collapse on mouse transit */
+    .dropdown-menu::before {
+        content: '';
+        position: absolute;
+        top: -15px;
+        left: 0;
+        width: 100%;
+        height: 15px;
+    }
+
+/* Visibility driver toggling popover state cleanly on trigger hover */
+.user-dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+/* Utility trigger layout matched cleanly inside dropdown boundaries */
+.signout-btn {
+    width: 100%;
+    background: none;
+    border: none;
+    color: #e63946;
+    padding: 10px 14px;
+    font-family: 'Century Gothic', sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    text-align: center;
+    border-radius: 4px;
+    transition: background-color 0.15s ease;
+}
+
+    /* Visual color swap marker feedback on primary button selection focus */
+    .signout-btn:hover {
+        background-color: #ffeae8;
+    }
