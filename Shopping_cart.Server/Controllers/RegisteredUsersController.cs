@@ -18,7 +18,6 @@ namespace Shopping_cart.Server.Controllers
 
         // POST: api/RegisteredUsers
         [HttpPost]
-        // ADDED [FromBody] so ASP.NET Core can read the React fetch body content layout
         public IActionResult AddRegisteredUser([FromBody] RegisteredUsers registeredUsers)
         {
             if (registeredUsers == null)
