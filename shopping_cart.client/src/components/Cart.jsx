@@ -6,7 +6,7 @@ export default function Cart({ dialog, cartItems, onUpdate, showRegister, showLo
     }
 
     const totalPrice = cartItems.reduce((total, item) => {
-
+        /*
         // 1. Check if price is a string (e.g., "?12,990.00")
         let cleanPrice = item.price;
 
@@ -19,8 +19,8 @@ export default function Cart({ dialog, cartItems, onUpdate, showRegister, showLo
         if (isNaN(cleanPrice)) {
             cleanPrice = 0;
         }
-
-        return total + (cleanPrice * item.quantity)
+        */
+        return total + (item.price * item.quantity)
     }, 0);
 
     return createPortal(
@@ -33,7 +33,7 @@ export default function Cart({ dialog, cartItems, onUpdate, showRegister, showLo
                             <div key={item.id} id='cart-item'>
                                 <div id="cart-item_name_price">
                                     <span id="cart-item-name">{item.name}</span>
-                                    <span id="cart-item-price">- {item.price}</span>
+                                    <span id="cart-item-price">- {new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' }).format(item.price)}</span>
                                 </div>
                                 <div id='cart-item_button'>
                                     <button onClick={() => onUpdate(item.id, 1)}>+</button>

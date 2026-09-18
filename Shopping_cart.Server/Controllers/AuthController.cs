@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -30,6 +31,7 @@ namespace Shopping_cart.Server.Controllers
 
             string firstName = "";
             string lastName = "";
+            string userRole = "";
             bool userExists = false;
 
             // Connect to your database to find the user
@@ -39,7 +41,7 @@ namespace Shopping_cart.Server.Controllers
 
                 // Querying your existing registration table
                 // Replacing "user_password" with your actual database column name if it is different!
-                string sql = "SELECT first_name, last_name FROM registered_users WHERE email = @email AND user_password = @password";
+                string sql = "SELECT first_name, last_name,user_role FROM registered_users WHERE email = @email AND user_password = @password";
 
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
@@ -53,6 +55,7 @@ namespace Shopping_cart.Server.Controllers
                             userExists = true;
                             firstName = reader["first_name"].ToString();
                             lastName = reader["last_name"].ToString();
+                            userRole = reader["user_role"].ToString();
                         }
                     }
                 }
@@ -61,21 +64,22 @@ namespace Shopping_cart.Server.Controllers
             if (userExists)
             {
                 // Generate the secure token
-                var token = GenerateJwtToken(login.Username);
+                var token = GenerateJwtToken(login.Username, userRole);
 
                 // Return the token AND the user's name so your React frontend can display "Hi, FirstName"
                 return Ok(new
                 {
                     token = token,
                     firstName = firstName,
-                    lastName = lastName
+                    lastName = lastName,
+                    userRole = userRole
                 });
             }
 
             return Unauthorized("Invalid email or password.");
         }
 
-        private string GenerateJwtToken(string username)
+        private string GenerateJwtToken(string username, string userRole)
         {
             var jwtSettings = _configuration.GetSection("Jwt");
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings["Key"]));
@@ -84,6 +88,7 @@ namespace Shopping_cart.Server.Controllers
             var claims = new[]
             {
                 new Claim(ClaimTypes.Name, username),
+                new Claim(ClaimTypes.Role, userRole),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
 

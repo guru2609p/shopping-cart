@@ -122,6 +122,13 @@ header {
     padding: 10px;
 }
 
+#register-inputs select {
+    margin: 10px;
+    width: 200px;
+    border: 1px solid black;
+    border-radius: 8px;
+    padding: 10px;
+}
 
 #email-input {
     display: grid;
@@ -134,17 +141,23 @@ header {
 #password-inputs {
     display: flex;
     align-items: center;
-    justify-content: space-evenly;
-    padding: 20px;
+    justify-content: space-between;
+    padding: 10px;
+    
 }
-
-
 
 #name-inputs {
     display: flex;
     align-items: center;
     justify-content: space-evenly;
     padding:10px;
+}
+
+#role-inputs {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 10px;
 }
 
 
@@ -256,6 +269,7 @@ header {
     box-shadow: 0 10px 10px 0 #889382;
     border-radius: 9px;
     width: 400px;
+    height:auto;
     /*height: 250px;*/
     /*padding: 10px 20px 10px;*/
     padding-bottom: 10px;
@@ -575,3 +589,38 @@ header {
     .signout-btn:hover {
         background-color: #ffeae8;
     }
+
+#form-page{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+#form-inputs{
+    display:flex;
+    flex-direction:column;
+}
+
+#form-inputs>div{
+    display:flex;
+    flex-direction:row;
+    align-items:center;
+    justify-content:space-between;
+    padding:10px;
+
+}
+
+#form-inputs input {
+    margin: 10px;
+    width: 200px;
+    border: 1px solid black;
+    border-radius: 8px;
+    padding: 10px;
+}
+
+#form-inputs textarea {
+    margin: 10px;
+    border: 1px solid black;
+    border-radius: 8px;
+    padding: 10px;
+}

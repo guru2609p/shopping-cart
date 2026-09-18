@@ -1,9 +1,41 @@
 import { useRef, useState } from 'react';
-export default function Products({ onAdd, products, setProductState }) {
+export default function Products({ onAdd, products, setProducts, setCategoryProducts, setProductState,loginUser }) {
 
     function handleShowCategory() {
         setProductState(false);
     }
+
+    async function handleDelete(id) {
+        // 1. Send the DELETE request to your C# API
+        try {
+
+            const token = localStorage.getItem('token');
+            const response = await fetch(`http://localhost:5285/api/Products/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to delete the product from the database.');
+            }
+
+            // Remove from the main products list
+            setProducts(prevProducts =>
+                prevProducts.filter(product => product.item_id !== id)
+            );
+
+            // Remove from the currently displayed category list
+            setCategoryProducts(prevProducts =>
+                prevProducts.filter(product => product.item_id !== id)
+            );
+
+        } catch (error) {
+            console.error("Error deleting product:", error);
+        }
+    }
+
 
     const dialog = useRef();
 
@@ -29,8 +61,11 @@ export default function Products({ onAdd, products, setProductState }) {
                                 <h3>{item.item_brand}</h3>
                             </div>
                             <div id='sub2'>
-                                <p>{item.price}</p>
-                                <button onClick={()=>onAdd(item.item_id)}>ADD</button>
+                                <p>{new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' }).format(item.price)}</p>
+                                <button onClick={() => onAdd(item.item_id)}>ADD</button>
+                                {(loginUser.firstName!==''&& loginUser.role === 'admin') &&
+                                    <button onClick={() => handleDelete(item.item_id)}>DELETE</button>
+                                } 
                             </div>
                         </div>
 

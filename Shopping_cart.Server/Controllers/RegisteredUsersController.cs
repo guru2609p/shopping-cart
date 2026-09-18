@@ -31,16 +31,17 @@ namespace Shopping_cart.Server.Controllers
             connection.Open();
 
             // duplicate email check: This addresses the multi-account bug identified in your console log
-            string checkSql = "SELECT COUNT(1) FROM registered_users WHERE email = @emailCheck";
+            string checkSql = "SELECT COUNT(1) FROM registered_users WHERE email = @emailCheck and user_role=@userRoleCheck";
             using (SqlCommand checkCommand = new SqlCommand(checkSql, connection))
             {
                 checkCommand.Parameters.Add("@emailCheck", System.Data.SqlDbType.NVarChar, 256).Value = registeredUsers.email;
+                checkCommand.Parameters.Add("@userRoleCheck", System.Data.SqlDbType.NVarChar, 256).Value = registeredUsers.user_role;
                 int emailExists = Convert.ToInt32(checkCommand.ExecuteScalar());
 
                 if (emailExists > 0)
                 {
                     // Returns 409 Conflict code caught by your "Register.jsx" custom error panel
-                    return Conflict("This email address is already registered.");
+                    return Conflict("This email address and role has already been registered.");
                 }
             }
 
@@ -53,6 +54,7 @@ namespace Shopping_cart.Server.Controllers
                     confirm_password,
                     first_name,
                     last_name,
+                    user_role,
                     checkbox
                 )
                 VALUES
@@ -62,6 +64,7 @@ namespace Shopping_cart.Server.Controllers
                     @confirm_password,
                     @first_name,
                     @last_name,
+                    @user_role,
                     @checkbox
                 )";
 
@@ -72,6 +75,7 @@ namespace Shopping_cart.Server.Controllers
             command.Parameters.Add("@confirm_password", System.Data.SqlDbType.NVarChar, 256).Value = (object)registeredUsers.confirm_password ?? DBNull.Value;
             command.Parameters.Add("@first_name", System.Data.SqlDbType.NVarChar, 100).Value = (object)registeredUsers.first_name ?? DBNull.Value;
             command.Parameters.Add("@last_name", System.Data.SqlDbType.NVarChar, 100).Value = (object)registeredUsers.last_name ?? DBNull.Value;
+            command.Parameters.Add("@user_role", System.Data.SqlDbType.NVarChar, 100).Value = (object)registeredUsers.user_role ?? DBNull.Value;
             command.Parameters.Add("@checkbox", System.Data.SqlDbType.Bit).Value = registeredUsers.checkbox;
 
             command.ExecuteNonQuery();
@@ -96,6 +100,7 @@ namespace Shopping_cart.Server.Controllers
                     confirm_password,
                     first_name,
                     last_name,
+                    user_role
                     checkbox
                 FROM registered_users";
 

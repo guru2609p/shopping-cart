@@ -33,6 +33,7 @@ export default function Login({ showRegister, handleHome, setLoginUser }) {
             // Save the token in local storage for secure checkout actions later
             localStorage.setItem('token', data.token);
 
+
             console.log('Logged user from database:', data);
 
             setLoginErrors([]);
@@ -41,7 +42,8 @@ export default function Login({ showRegister, handleHome, setLoginUser }) {
             setLoginUser({
                 email: email,
                 firstName: data.firstName,
-                lastName: data.lastName
+                lastName: data.lastName,
+                role:data.userRole,
             });
 
             handleHome();

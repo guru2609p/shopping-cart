@@ -1,5 +1,3 @@
-import { useState,useRef } from "react";
-import Products from './Products.jsx';
 import {
     ELECTRONIC_ITEMS,
     BOOKS,
@@ -16,46 +14,46 @@ export default function Category({ dialog1, productState, setProductState, produ
 
     let content = (
         <div id='categories'>
-            <div onClick={() => onShow(ELECTRONIC_ITEMS)}>
+            <div onClick={() => onShow('electronic items')}>
                 <img src='electronics.jpg' />
                 <div className="overlay">
                     <h1>Electronic Items</h1>
                 </div>
             </div>
-            <div onClick={() => onShow(BOOKS)} >
+            <div onClick={() => onShow('books')} >
                 <img src='books.jpg' />
                 <div className="overlay">
                     <h1>Books</h1>
                 </div>
             </div>
-            <div onClick={() => onShow(MENS_CLOTHES)}>
+            <div onClick={() => onShow("men's clothes")}>
                 <img src="mens clothes.jpg" />
                 <div className="overlay">
                     <h1>Men's Clothes</h1>
                 </div>
             </div>
-            <div onClick={() => onShow(WOMENS_CLOTHES)}>
+            <div onClick={() => onShow("women's clothes")}>
                 <img src="womens clothes.jpg" />
                 <div className="overlay">
                     <h1>Women's Clothes</h1>
                 </div>
 
             </div>
-            <div onClick={() => onShow(BAGS_AND_LUGGAGES)}>
+            <div onClick={() => onShow("bags and luggages")}>
                 <img src='bags & luggages.jpg' />
                 <div className='overlay'>
                     <h1>Bags & Luggages</h1>
                 </div>
 
             </div>
-            <div onClick={() => onShow(HEALTH_ITEMS)}>
+            <div onClick={() => onShow("health items")}>
                 <img src='health items.jpg' />
                 <div className='overlay'>
                     <h1>Health Items</h1>
                 </div>
 
             </div>
-            <div onClick={() => onShow(HOMES_AND_KITCHEN)}>
+            <div onClick={() => onShow("home and kitchen")}>
                 <img src='home and kitchen.jpg' />
                 <div className='overlay'>
                     <h1>Home and Kitchen</h1>

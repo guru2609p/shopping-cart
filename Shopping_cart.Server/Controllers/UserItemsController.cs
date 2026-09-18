@@ -1,6 +1,7 @@
-﻿using Shopping_cart.Server.Models;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
+using Shopping_cart.Server.Models;
 using System;
 
 namespace Shopping_cart.Server.Controllers
@@ -17,6 +18,7 @@ namespace Shopping_cart.Server.Controllers
         }
 
         // POST: api/UserItems
+        [Authorize(Roles = "user")]
         [HttpPost]
         public IActionResult AddRegisteredUser(UserItems userItems)
         {

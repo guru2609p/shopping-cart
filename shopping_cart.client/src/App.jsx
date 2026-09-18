@@ -6,6 +6,7 @@ import Products from './components/Products';
 import Cart from './components/Cart';
 import Register from './components/Register';
 import Checkout from './components/Checkout';
+import Form from './components/Form';
 
 function App() {
 
@@ -15,7 +16,8 @@ function App() {
     const [currentView, setCurrentView] = useState('category');
 
     // Data State
-    const [products, setProducts] = useState(undefined);
+    const [products, setProducts] = useState([]);
+    const [categoryProducts, setCategoryProducts] = useState([]);
     const [registeredUsers, setRegisteredUsers] = useState([]);
     const [loginUser, setLoginUser] = useState({ email: '', firstName: '', lastName: '' });
     const [cartItems, setCartItems] = useState([]);
@@ -30,9 +32,37 @@ function App() {
         console.log("All Registered Users:", registeredUsers);
     }, [registeredUsers]);*/
 
+
+    useEffect(() => {
+        console.log("All Products:", products);
+    }, [products]);
+
     // Debugging purchases
     console.log('User Purchase', userPurchase);
     console.log('Cart Items', cartItems);
+
+    async function loadProducts() {
+        try {
+            const response = await fetch(
+                "http://localhost:5285/api/Products"
+            );
+
+            if (!response.ok) {
+                throw new Error('Failed to fetch products');
+            }
+
+            const data = await response.json();
+
+            setProducts(data);
+        }
+        catch (error) {
+            console.error(error);
+        }
+    }
+
+    useEffect(() => {
+        loadProducts();
+    }, []);
 
     /*async function loadRegisteredUsers() {
         try {
@@ -63,8 +93,13 @@ function App() {
     function showLogin() { setCurrentView('login'); }
     function handleHome() { setCurrentView('category'); }
 
+    function handleAddProduct() { setCurrentView('addproduct'); }
+
     function handleShowProducts(categoryData) {
-        setProducts(categoryData);
+        const category_products1 = products.filter((product) => {
+            return product.category === categoryData;
+        })
+        setCategoryProducts(category_products1);
         setCurrentView('products');
     }
 
@@ -189,11 +224,17 @@ function App() {
             content = <Register showLogin={showLogin}/>;
             break;
         case 'products':
-            content = <Products onAdd={handleAddToCart} products={products} setProductState={() => setCurrentView('category')} />;
+            content = <Products onAdd={handleAddToCart} products={categoryProducts} setProducts={setProducts}
+                setCategoryProducts={setCategoryProducts} setProductState={() => setCurrentView('category')}
+                loginUser={loginUser}
+            />;
             break;
         case 'category':
         default:
             content = <Category products={products} setProducts={setProducts} productState={currentView === 'products'} setProductState={() => { }} onShow={handleShowProducts} />;
+            break;
+        case 'addproduct':
+            content = <Form handleHome={handleHome} loadProducts={loadProducts} />
             break;
     }
 
@@ -206,27 +247,53 @@ function App() {
                 </div>
 
                 <div id='cart'>
-                    {loginUser.firstName !== '' && (
-                        <div className="user-dropdown">
-                            <h2 className="dropdown-trigger" style={{ cursor: 'pointer' }}>
-                                Hi, {loginUser.firstName}
-                                <i className='fas fa-user-alt' style={{ fontSize: "24px", marginLeft: "8px" }} ></i>
-                            </h2>
-                            <div className="dropdown-menu">
-                                <button onClick={handleSignOut} className="signout-btn">
-                                    Sign out
-                                </button>
+                    {(loginUser.firstName !== '' && loginUser.role==='user')&&(
+                        <>
+                            <div className="user-dropdown">
+                                <h2 className="dropdown-trigger" style={{ cursor: 'pointer' }}>
+                                    Hi, {loginUser.firstName}
+                                    <i className='fas fa-user-alt' style={{ fontSize: "24px", marginLeft: "8px" }} ></i>
+                                </h2>
+                                <div className="dropdown-menu">
+                                    <button onClick={handleSignOut} className="signout-btn">
+                                        Sign out
+                                    </button>
+                                </div>
                             </div>
-                        </div>
+                            <h2>|</h2>
+                            <h2 onClick={handleShowCart} style={{ cursor: 'pointer' }}>Cart({cartItems.length})</h2>
+                        </>
+                    )}
+
+                    {(loginUser.firstName !== '' && loginUser.role=== 'admin')&&(
+                        <>
+                            <div className="user-dropdown">
+                                <h2 className="dropdown-trigger" style={{ cursor: 'pointer' }}>
+                                    Hi, {loginUser.firstName}
+                                    <i className='fas fa-user-alt' style={{ fontSize: "24px", marginLeft: "8px" }} ></i>
+                                </h2>
+                                <div className="dropdown-menu">
+                                    <button onClick={handleSignOut} className="signout-btn">
+                                        Sign out
+                                    </button>
+                                </div>
+                            </div>
+                            <h2>|</h2>
+                            <h2 onClick={handleAddProduct}>Add Product</h2>
+                        </>
                     )}
 
                     {loginUser.firstName === '' && (
-                        <h2 onClick={handleClick} style={{ cursor: 'pointer' }}>
+                        <>
+                            <h2 onClick={handleClick} style={{ cursor: 'pointer' }}>
                             Sign in<i className='fas fa-user-alt' style={{ fontSize: "24px", marginLeft: "8px" }} ></i>
-                        </h2>
+                            </h2>
+                            <h2>|</h2>
+                            <h2 onClick={handleShowCart} style={{ cursor: 'pointer' }}>Cart({cartItems.length})</h2>
+                        </>
                     )}
-                    <h2>|</h2>
-                    <h2 onClick={handleShowCart} style={{ cursor: 'pointer' }}>Cart({cartItems.length})</h2>
+                    
+                    
                 </div>
             </header>
 

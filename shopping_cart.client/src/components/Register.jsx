@@ -14,6 +14,7 @@ export default function Register({ showLogin }) {
         const confirmPassword = fd.get('confirmpassword');
         const firstName = fd.get('firstname');
         const lastName = fd.get('lastname');
+        const userRole = fd.get('role');
         const checkboxInput = fd.get('checkboxinput');
 
         const errors = [];
@@ -52,6 +53,7 @@ export default function Register({ showLogin }) {
             confirm_password: confirmPassword,
             first_name: firstName,
             last_name: lastName,
+            user_role: userRole,
             checkbox: checkboxInput === 'on'
         };
 
@@ -119,6 +121,13 @@ export default function Register({ showLogin }) {
                                 <input required type='text' name='firstname' placeholder='Enter First Name'></input>
                                 <label>Last Name:</label>
                                 <input required type='text' name="lastname" placeholder='Enter Last Name'></input>
+                            </div>
+                            <div id='role-inputs'>
+                                <label>Role:</label>
+                                <select id="" name="role">
+                                    <option value="admin">Admin</option>
+                                    <option value="user">User</option>
+                                </select>
                             </div>
                             <div id='checkbox-inputs'>
                                 <input required id='checkbox' type='checkbox' name='checkboxinput' />
