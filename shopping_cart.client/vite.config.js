@@ -10,6 +10,6 @@ export default defineConfig({
       ignored: ['**/*.TMP', '**/*~*'], 
     },
     // Optimizes network speeds for local Windows environments
-    host: 'localhost',
+      host: 'localhost',
   },
 })

@@ -1,5 +1,24 @@
+import React, { useState } from 'react'
+import Select from 'react-select';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 export default function Form({ handleHome, loadProducts }) {
 
+    const [selectedCategories, setSelectedCategories] = useState([]);
+    const [validationErrors, setValidationErrors] = useState([]);
+    console.log(selectedCategories);
+    const options = [
+        { value: "electronic items", label: 'Electronic Items' },
+        { value: "books", label: 'Books' },
+        { value: "men's clothes", label: "Men's Clothes" },
+        { value: "women's clothes", label: "Women's Clothes" },
+        { value: "bags and luggages", label: 'Bags and Luggages' },
+        { value: "health items", label: 'Health Items' },
+        { value: "home and kitchen", label: 'Home And Kitchen' }
+    ]
+
+    
     const handleFileChange = (event) => {
         // 1. Get the list of selected files (event.target.files)
         const files = event.target.files;
@@ -22,8 +41,12 @@ export default function Form({ handleHome, loadProducts }) {
         const itemDescription= fd.get('item_description');
         const itemBrand = fd.get('item_brand');
         const price = fd.get('price');
-        const category = fd.get('category');
         const itemImage = fd.get('item_image');
+
+        // 2. UPDATED: Map selected category objects to an array of raw strings
+        const categoriesArray = selectedCategories
+            .map(option => option.value)
+            .join(',');
 
 
         // This payload schema maps directly to your database column naming scheme
@@ -32,7 +55,7 @@ export default function Form({ handleHome, loadProducts }) {
             item_description: itemDescription,
             item_brand: itemBrand,
             price: price,
-            category: category,
+            category: categoriesArray,
             item_image: itemImage.name
         };
 
@@ -55,13 +78,21 @@ export default function Form({ handleHome, loadProducts }) {
             console.log("Status:", response.status);
 
             // 3. ADDED: Catch if the C# server rejects the email due to a duplicate record entry
-            /*if (response.status === 409) {
+            if (response.status === 409) {
                 setValidationErrors(['This email address is already registered. Please login instead.']);
                 return;
-            }*/
+            }
 
             if (!response.ok) {
-                throw new Error('Failed to add registered user');
+
+                if (response.status === 401) {
+                    toast.error('You are not authorized to add a product.');
+                    return;
+                }
+
+                toast.error('Failed to add product.');
+                /*throw new Error('Failed to add product');*/
+                /*return;*/
             }
 
             const registered_product = await response.json();
@@ -72,12 +103,17 @@ export default function Form({ handleHome, loadProducts }) {
 
 
             event.target.reset();
+            setSelectedCategories([]); 
             handleHome();
 
         } catch (error) {
-            console.error('Error adding registered user:', error);
-            setValidationErrors(['Failed to establish a network connection to the server.']);
+            console.error('Error adding product:', error);
+            /*setValidationErrors(['Failed to establish a network connection to the server.']);*/
+            toast.error('Failed to add product.');
+            
         }
+
+        toast.success("Product added successfully");
     }
 
     return (
@@ -93,7 +129,7 @@ export default function Form({ handleHome, loadProducts }) {
                             </div>
                             <div>
                                 <label>Description:</label>
-                                <textarea required name="item_description" style={{ width: '200px', height: '100px' }} ></textarea>
+                                <textarea required name="item_description" /*style={{ width: '200px', height: '100px' }}*/ ></textarea>
                             </div>
                             <div>
                                 <label>Brand:</label>
@@ -105,17 +141,29 @@ export default function Form({ handleHome, loadProducts }) {
                             </div>
                             <div>
                                 <label>Category:</label>
-                                <input required type='text' name="category" placeholder='Enter Category'></input>
+                                {/*<input required type='text' name="category" placeholder='Enter Category'></input>*/}
+                                {/* 4. UPDATED: Connected value and onChange handlers */}
+                                <Select 
+                                    id='select'
+                                    value={selectedCategories}
+                                    onChange={setSelectedCategories}
+                                    isMulti
+                                    name="category"
+                                    options={options}
+                                    className="basic-multi-select"
+                                    classNamePrefix="select"
+                                />
+
+                                
                             </div>
                             <div>
                                 <label>Attach Image:</label>
                                 <input required type='file' name='item_image' onChange={handleFileChange} />
                             </div>
+                            <div id='add-product-buttons'>
+                                <button id='add-product-button' type='submit'>Add Product</button>
+                            </div>
                         </div>
-                        <div id='register-buttons'>
-                            
-                            <button type='submit'>Add Product</button>
-                         </div>
                          <div>
                                 {/*
                                 <ul style={{ color: 'red', listStyleType: "none" }}>
@@ -132,4 +180,3 @@ export default function Form({ handleHome, loadProducts }) {
     );
 }
 
- Form;

@@ -1,6 +1,9 @@
 import { useRef, useState } from 'react';
-export default function Products({ onAdd, products, setProducts, setCategoryProducts, setProductState,loginUser }) {
 
+export default function Products({ onAdd, onAdd1, products, setProducts, setCategoryProducts,
+    setProductState, loginUser }) {
+
+    
     function handleShowCategory() {
         setProductState(false);
     }
@@ -36,7 +39,34 @@ export default function Products({ onAdd, products, setProducts, setCategoryProd
         }
     }
 
+    const [search, setSearch] = useState('');
 
+    //PAGINATION
+    const [currentPage, setCurrentPage] = useState(1);
+    const [postsPerPage, setPostsPerPage] = useState(2);
+
+    // Filter the products first based on search state
+    const filteredProducts = products.filter(product =>
+        product.item_name.toLowerCase().includes(search.toLowerCase())
+    );
+
+    const indexOfLastPost = currentPage * postsPerPage;
+    const indexOfFirstPost = indexOfLastPost - postsPerPage;
+
+    const currentPosts = filteredProducts.slice(indexOfFirstPost, indexOfLastPost);
+
+    const totalPages = Math.ceil(filteredProducts.length / postsPerPage);
+    const pages = [];
+    function paginate(page) {
+        setCurrentPage(page)
+    }
+
+    for (let i = 0; i < totalPages; i++) {
+        pages.push(i + 1)
+    }
+
+
+    //DIALOG
     const dialog = useRef();
 
     const [selectedItem, setSelectedItem] = useState(null);
@@ -49,10 +79,21 @@ export default function Products({ onAdd, products, setProducts, setCategoryProd
         dialog.current.close();
         setSelectedItem(null);
     }
+
+    //search
+    function handleSearch(value) {
+        setSearch(value);
+        setCurrentPage(1);
+    }
+
     return (
         <>
+            <div id='search'>
+                <input type='search' placeholder='Search or type URL' value={search} onChange={(event) => handleSearch(event.target.value)} />
+            </div>
+
             <ul id='products'>
-                {products.map((item) => (
+                {currentPosts.map((item) => (
                     <li key={item.item_id}>
                         <div id='item' >
                             <img src={item.item_image} alt={item.item_image}/>
@@ -61,10 +102,28 @@ export default function Products({ onAdd, products, setProducts, setCategoryProd
                                 <h3>{item.item_brand}</h3>
                             </div>
                             <div id='sub2'>
-                                <p>{new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' }).format(item.price)}</p>
-                                <button onClick={() => onAdd(item.item_id)}>ADD</button>
-                                {(loginUser.firstName!==''&& loginUser.role === 'admin') &&
+                                {(loginUser.firstName !== '' && loginUser.role === 'user') &&(
+                                    <>
+                                        <p>{new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' }).format(item.price)}</p>
+                                        <button onClick={() => onAdd1(item.item_id)}>ADD</button>
+                                    </>
+                                )
+                                }
+                                {loginUser.firstName === '' &&(
+                                    <>
+                                        <p>{new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' }).format(item.price)}</p>
+                                        <button onClick={() => onAdd(item.item_id)}>ADD</button>
+                                    </>
+                                )
+                                }
+                                
+                                
+                                {(loginUser.firstName !== '' && loginUser.role === 'admin') &&
+                                    <>
+                                    <p>{new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' }).format(item.price)}</p>
                                     <button onClick={() => handleDelete(item.item_id)}>DELETE</button>
+                                    </>
+                                    
                                 } 
                             </div>
                         </div>
@@ -86,6 +145,14 @@ export default function Products({ onAdd, products, setProducts, setCategoryProd
                     </>
                 )}
             </dialog>
+
+            <div className='pagination'>
+                <button onClick={() => paginate(1)}>Prev</button>
+                {pages.map((page, index) => {
+                    return (<button key={index} onClick={() => paginate(page)}>{page}</button>)
+                })}
+                <button onClick={() => paginate(totalPages)}>Next</button>
+            </div>
 
             <div id='home' onClick={handleShowCategory}>
                 <p>Back to Home</p>

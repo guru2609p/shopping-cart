@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export default function Login({ showRegister, handleHome, setLoginUser }) {
+export default function Login({ showRegister, handleHome, setLoginUser, cartItems, transferGuestCart }) {
     const [loginErrors, setLoginErrors] = useState([]);
 
     
@@ -45,6 +45,8 @@ export default function Login({ showRegister, handleHome, setLoginUser }) {
                 lastName: data.lastName,
                 role:data.userRole,
             });
+
+            await transferGuestCart(email);
 
             handleHome();
             event.target.reset();
