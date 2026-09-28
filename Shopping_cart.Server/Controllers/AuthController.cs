@@ -71,6 +71,7 @@ namespace Shopping_cart.Server.Controllers
                 {
                     token = token,
                     firstName = firstName,
+                    username=login.Username,
                     lastName = lastName,
                     userRole = userRole
                 });
