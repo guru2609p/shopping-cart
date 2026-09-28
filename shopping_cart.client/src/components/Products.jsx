@@ -147,7 +147,7 @@ export default function Products({ onAdd, onAdd1, products, setProducts, setCate
             </dialog>
 
             <div className='pagination'>
-                <button onClick={() => paginate(1)}>Prev</button>
+                <button onClick={() => paginate(currentPage-1)}>Prev</button>
                 {pages.map((page, index) => {
                     return (<button key={index} onClick={() => paginate(page)}>{page}</button>)
                 })}

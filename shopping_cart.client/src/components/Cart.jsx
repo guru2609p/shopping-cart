@@ -1,5 +1,5 @@
 import { createPortal } from 'react-dom';
-export default function Cart({ dialog, cartItems, userCartItems, loggedCartItems, onUpdate, onUpdate1, showRegister, showLogin, showCheckout, loginUser })
+export default function Cart({ dialog, cartItems, loggedCartItems, onUpdate, onUpdate1, showRegister, showLogin, showCheckout, loginUser })
 {
     function handleCloseCart() {
         dialog.current.close();

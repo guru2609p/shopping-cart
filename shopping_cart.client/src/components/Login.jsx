@@ -33,18 +33,21 @@ export default function Login({ showRegister, handleHome, setLoginUser, cartItem
             // Save the token in local storage for secure checkout actions later
             localStorage.setItem('token', data.token);
 
+            const user = {
+                email: email,
+                firstName: data.firstName,
+                lastName: data.lastName,
+                role: data.userRole
+            };
+
+            localStorage.setItem('loginUser', JSON.stringify(user));
 
             console.log('Logged user from database:', data);
 
             setLoginErrors([]);
 
             // Update state using data fetched directly from your SQL table rows
-            setLoginUser({
-                email: email,
-                firstName: data.firstName,
-                lastName: data.lastName,
-                role:data.userRole,
-            });
+            setLoginUser(user);
 
             await transferGuestCart(email);
 

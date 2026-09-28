@@ -18,8 +18,24 @@ function App() {
     const [products, setProducts] = useState([]);
     const [categoryProducts, setCategoryProducts] = useState([]);
     const [registeredUsers, setRegisteredUsers] = useState([]);
-    const [loginUser, setLoginUser] = useState({ email: '', firstName: '', lastName: '' });
-    const [cartItems, setCartItems] = useState([]);
+    //const [loginUser, setLoginUser] = useState({ email: '', firstName: '', lastName: '' });
+    const [loginUser, setLoginUser] = useState(() => {
+        const savedUser = localStorage.getItem('loginUser');
+
+        return savedUser
+            ? JSON.parse(savedUser)
+            : {
+                email: '',
+                firstName: '',
+                lastName: '',
+                role: ''
+            };
+    });
+    //const [cartItems, setCartItems] = useState([]);
+    const [cartItems, setCartItems] = useState(() => {
+        const savedCart = localStorage.getItem('cartItems');
+        return savedCart ? JSON.parse(savedCart) : [];
+    });
     const [userCartItems, setUserCartItems] = useState([]);
     const [userPurchase, setUserPurchase] = useState([]);
 
@@ -40,6 +56,11 @@ function App() {
     useEffect(() => {
         console.log("All Products:", products);
     }, [products]);
+
+    useEffect(() => {
+        localStorage.setItem('cartItems', JSON.stringify(cartItems));
+    }, [cartItems]);
+
 
     useEffect(() => {
         console.log("Your Cart Items:", userCartItems);
@@ -115,6 +136,11 @@ function App() {
 
         const token = localStorage.getItem('token');
 
+        if (!token) {
+            return;
+        }
+
+
         try {
 
             for (const item of cartItems) {
@@ -150,6 +176,7 @@ function App() {
 
             // Guest cart is now stored in database
             setCartItems([]);
+            localStorage.removeItem('cartItems');
 
         } catch (error) {
             console.error('Error transferring guest cart:', error);
@@ -188,7 +215,7 @@ function App() {
 
     function handleAddProduct() { setCurrentView('addproduct'); }
 
-    /*
+    
     function handleShowProducts(categoryData) {
         const category_products1 = products.filter((product) => {
             return product.category === categoryData;
@@ -196,8 +223,8 @@ function App() {
         setCategoryProducts(category_products1);
         setCurrentView('products');
     }
-    */
-
+    
+    /* same as above function
     function handleShowProducts(categoryData) {
         const category_products1 = products.filter((product) => {
             return product.category
@@ -208,7 +235,7 @@ function App() {
         setCategoryProducts(category_products1);
         setCurrentView('products');
     }
-
+    */
 
     function handleClick() {
         showLogin();
@@ -216,6 +243,8 @@ function App() {
 
     function handleSignOut() {
         localStorage.removeItem('token'); // Clears the saved JWT security key
+        localStorage.removeItem('loginUser');
+
         setLoginUser({ email: '', password: '', firstName: '', lastName: '' });
         handleHome();
     }
